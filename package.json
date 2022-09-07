@@ -1,0 +1,23 @@
+{
+  "name": "camviewerplus",
+  "version": "1.0.0",
+  "description": "A customizable browser-based RTSP viewer with multiple grid views.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jack Pendleton",
+  "license": "GPLv3",
+  "dependencies": {
+    "bootstrap": "^5.2.0",
+    "bootstrap-icons": "^1.9.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "express-handlebars": "^6.0.6",
+    "jquery": "^3.6.1",
+    "jsmpeg": "^1.0.0",
+    "node-rtsp-stream": "^0.0.9",
+    "path": "^0.12.7"
+  }
+}

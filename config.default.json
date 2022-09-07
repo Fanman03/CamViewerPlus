@@ -1,0 +1,25 @@
+{
+    "settings": {
+        "gridType": "4",
+        "cameras": [
+            {
+                "position": "0",
+                "source": "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4"
+            },
+            {
+                "position": "1",
+                "source": "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4"
+            },
+            {
+                "position": "2",
+                "source": "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4"
+            },
+            {
+                "position": "3",
+                "source": "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4"
+            }
+        ],
+        "streamPortStart": "6900",
+        "uiPort": "6980"
+    }
+}

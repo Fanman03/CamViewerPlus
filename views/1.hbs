@@ -1,0 +1,28 @@
+<div class="container-fluid">
+    <div class="row wholeRow">
+        <div class="col">
+            <canvas data-id="0"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="js/jsmpeg.min.js"></script>
+<script>
+    const streamPortStart = {{{ streamPortStart }}};
+    $("canvas").each(function () {
+        let thisId = $(this).data("id");
+        let thisPort = parseInt(streamPortStart) + parseInt(thisId);
+        let thisCanvas = document.querySelector('[data-id="' + thisId + '"]');
+        let player = new JSMpeg.Player('ws://localhost:' + thisPort, {
+            canvas: thisCanvas
+        });
+
+        $(this).width("100vw");
+        $(this).height("100vh");
+        $(this).attr("data-width", "100vw");
+        $(this).attr("data-height", "100vh");
+
+        $(this).attr("data-expanded", "false");
+
+    });
+</script>

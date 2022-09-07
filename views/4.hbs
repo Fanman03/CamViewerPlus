@@ -1,0 +1,53 @@
+<div class="container-fluid">
+    <div class="row oneHalfRow">
+        <div class="col">
+            <canvas data-id="0"></canvas>
+        </div>
+        <div class="col">
+            <canvas data-id="1"></canvas>
+        </div>
+    </div>
+
+    <div class="row oneHalfRow">
+        <div class="col">
+            <canvas data-id="2"></canvas>
+        </div>
+        <div class="col">
+            <canvas data-id="3"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="js/jsmpeg.min.js"></script>
+<script>
+    const streamPortStart = {{{ streamPortStart }}};
+    $("canvas").each(function () {
+        let thisId = $(this).data("id");
+        let thisPort = parseInt(streamPortStart) + parseInt(thisId);
+        let thisCanvas = document.querySelector('[data-id="' + thisId + '"]');
+        let player = new JSMpeg.Player('ws://localhost:' + thisPort, {
+            canvas: thisCanvas
+        });
+
+        $(this).width("50vw");
+        $(this).height("50vh");
+        $(this).attr("data-width", "50vw");
+        $(this).attr("data-height", "50vh");
+
+        $(this).attr("data-expanded", "false");
+
+    });
+
+    $("canvas").click(function () {
+
+        if ($(this).attr("data-expanded") === 'true') {
+            $(this).attr("style", "");
+            $(this).width($(this).data("width"));
+            $(this).height($(this).data("height"));
+            $(this).attr("data-expanded", "false");
+        } else {
+            $(this).attr("style", "position: fixed; top: 0; left: 0; height: 100vh; width: 100vw;")
+            $(this).attr("data-expanded", "true");
+        }
+    });
+</script>
