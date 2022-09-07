@@ -5,6 +5,7 @@ const exphbs = require('express-handlebars');
 const path = require('path');
 const fs = require("fs");
 const config = require("../js/config");
+const { proxy, scriptUrl } = require('rtsp-relay')(app);
 
 function start() {
     let configData = config.get();
@@ -23,7 +24,8 @@ function start() {
     app.get('/', (req, res) => {
 
         res.render(configData.settings.gridType, {
-            streamPortStart: configData.settings.streamPortStart
+            streamPort: configData.settings.streamPort,
+            scriptUrl: scriptUrl
         });
     });
 

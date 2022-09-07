@@ -1,20 +1,21 @@
-rtspserver = require('node-rtsp-stream');
 const config = require("../js/config");
+const express = require('express');
+const app = express();
+const { proxy, scriptUrl } = require('rtsp-relay')(app);
 
 function start() {
     let configData = config.get();
     for (let i = 0; i < configData.settings.cameras.length; i++) {
-        const cam = configData.settings.cameras[i];
-        let thisStream = new rtspserver({
-            name: 'name',
-            streamUrl: cam.source,
-            wsPort: parseInt(configData.settings.streamPortStart) + parseInt(cam.position),
-            ffmpegOptions: { // options ffmpeg flags
-                '-r': 30 // options with required values specify the value after the key
-            }
-        })
-        console.log("started stream on port " + (configData.settings.streamPortStart + parseInt(cam.position)));
+        let thisHandler = proxy({
+            url: configData.settings.cameras[i].source,
+            // if your RTSP stream need credentials, include them in the URL as above
+            verbose: false,
+        });
+        app.ws('/api/stream/' + i, thisHandler);
+
     }
+    app.listen(configData.settings.streamPort);
+    console.log("started stream on port " + configData.settings.streamPort);
 }
 
 module.exports = { start }

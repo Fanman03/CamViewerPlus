@@ -18,14 +18,15 @@
     </div>
 </div>
 
-<script src="js/jsmpeg.min.js"></script>
+<script src="{{{ scriptUrl }}}"></script>
 <script>
-    const streamPortStart = {{{ streamPortStart }}};
+    const streamPort = {{{ streamPort }}};
     $("canvas").each(function () {
         let thisId = $(this).data("id");
-        let thisPort = parseInt(streamPortStart) + parseInt(thisId);
         let thisCanvas = document.querySelector('[data-id="' + thisId + '"]');
-        let player = new JSMpeg.Player('ws://localhost:' + thisPort, {
+
+        loadPlayer({
+            url: 'ws://' + location.hostname + ':' + streamPort + '/api/stream/' +  thisId,
             canvas: thisCanvas
         });
 

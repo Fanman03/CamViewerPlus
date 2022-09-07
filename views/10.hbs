@@ -53,9 +53,10 @@
     const streamPortStart = {{{ streamPortStart }}};
     $("canvas").each(function () {
         let thisId = $(this).data("id");
-        let thisPort = parseInt(streamPortStart) + parseInt(thisId);
         let thisCanvas = document.querySelector('[data-id="' + thisId + '"]');
-        let player = new JSMpeg.Player('ws://localhost:' + thisPort, {
+
+        loadPlayer({
+            url: 'ws://' + location.hostname + ':' + streamPort + '/api/stream/' + thisId,
             canvas: thisCanvas
         });
 
@@ -75,9 +76,9 @@
     });
 
     $("canvas").click(function () {
-        
+
         if ($(this).attr("data-expanded") === 'true') {
-            $(this).attr("style","");
+            $(this).attr("style", "");
             $(this).width($(this).data("width"));
             $(this).height($(this).data("height"));
             $(this).attr("data-expanded", "false");

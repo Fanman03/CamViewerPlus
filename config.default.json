@@ -19,7 +19,7 @@
                 "source": "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4"
             }
         ],
-        "streamPortStart": "6900",
+        "streamPort": "6900",
         "uiPort": "6980"
     }
 }
