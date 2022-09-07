@@ -13,6 +13,14 @@
             height: 25vh;
         }
 
+        .oneThirdRow {
+            height: 33vh;
+        }
+
+        .oneThirdRowMiddle {
+            height: 34vh;
+        }
+
         .oneHalfRow {
             height: 50vh;
         }
@@ -50,7 +58,39 @@
 
 <body>
     <script src="/js/jquery.min.js"></script>
+    <script src="{{{ scriptUrl }}}"></script>
     {{{body}}}
+    <script>
+        const streamPort = {{{ streamPort }}};
+        $("canvas").each(function () {
+            let thisId = $(this).data("id");
+            let thisCanvas = document.querySelector('[data-id="' + thisId + '"]');
+
+            loadPlayer({
+                url: 'ws://' + location.hostname + ':' + streamPort + '/api/stream/' + thisId,
+                canvas: thisCanvas
+            });
+
+            $(this).width($(this).data("width") + "vw");
+            $(this).height($(this).data("height") + "vh");
+
+            $(this).attr("data-expanded", "false");
+
+        });
+
+        $("canvas").click(function () {
+
+            if ($(this).attr("data-expanded") === 'true') {
+                $(this).attr("style", "");
+                $(this).width($(this).data("width") + "vw");
+                $(this).height($(this).data("height") + "vh");
+                $(this).attr("data-expanded", "false");
+            } else {
+                $(this).attr("style", "position: fixed; top: 0; left: 0; height: 100vh; width: 100vw;")
+                $(this).attr("data-expanded", "true");
+            }
+        });
+    </script>
 </body>
 
 </html>

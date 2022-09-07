@@ -1,29 +1,7 @@
 <div class="container-fluid">
     <div class="row wholeRow">
         <div class="col">
-            <canvas data-id="0"></canvas>
+            <canvas data-id="0" data-width="100" data-height="100"></canvas>
         </div>
     </div>
 </div>
-
-<script src="js/jsmpeg.min.js"></script>
-<script>
-    const streamPortStart = {{{ streamPortStart }}};
-    $("canvas").each(function () {
-        let thisId = $(this).data("id");
-        let thisCanvas = document.querySelector('[data-id="' + thisId + '"]');
-
-        loadPlayer({
-            url: 'ws://' + location.hostname + ':' + streamPort + '/api/stream/' + thisId,
-            canvas: thisCanvas
-        });
-
-        $(this).width("100vw");
-        $(this).height("100vh");
-        $(this).attr("data-width", "100vw");
-        $(this).attr("data-height", "100vh");
-
-        $(this).attr("data-expanded", "false");
-
-    });
-</script>
