@@ -4,11 +4,11 @@ const path = require('path');
 function get() {
     let data;
     try {
-        let rawFile = fs.readFileSync('./config.json');
+        let rawFile = fs.readFileSync('./conf/config.json');
         data = JSON.parse(rawFile);
     } catch {
         let rawFile = fs.readFileSync('./config.default.json');
-        fs.copyFileSync('./config.default.json', './config.json')
+        fs.copyFileSync('./config.default.json', './conf/config.json')
         data = JSON.parse(rawFile);
     }
     return data;
@@ -17,11 +17,11 @@ function get() {
 async function getAsync() {
     let data;
     try {
-        let rawFile = await fs.readFile('./config.json');
+        let rawFile = await fs.readFile('./conf/config.json');
         data = JSON.parse(rawFile);
     } catch {
         let rawFile = await fs.readFile('./config.default.json');
-        fs.copyFileSync('./config.default.json', './config.json')
+        fs.copyFileSync('./config.default.json', './conf/config.json')
         data = JSON.parse(rawFile);
     }
     return data;
@@ -50,11 +50,11 @@ async function getGrids() {
 }
 
 function setGridType(grid) {
-    let content = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
+    let content = JSON.parse(fs.readFileSync('./conf/config.json', 'utf8'));
 
     content.settings.gridType = grid;
 
-    fs.writeFileSync('./config.json', JSON.stringify(content));
+    fs.writeFileSync('./conf/config.json', JSON.stringify(content));
 }
 
 module.exports = { get, getAsync, getGrids, setGridType }
