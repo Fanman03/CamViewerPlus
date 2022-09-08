@@ -7,61 +7,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/main.css">
     <title>CamViewerPlus</title>
-    <style>
-        .oneQuarterRow {
-            height: 25vh;
-        }
-
-        .oneThirdRow {
-            height: 33vh;
-        }
-
-        .oneThirdRowMiddle {
-            height: 34vh;
-        }
-
-        .oneHalfRow {
-            height: 50vh;
-        }
-
-        .wholeRow {
-            height: 100vh;
-        }
-
-        .oneQuarterCol {
-            width: 25vw;
-        }
-
-        .oneHalfCol {
-            width: 50vw;
-        }
-
-        .wholeCol {
-            width: 100vw;
-        }
-
-        .container-fluid,
-        .container,
-        .row,
-        .col {
-            padding: 0px !important;
-            margin: 0px !important;
-            flex-wrap: nowrap;
-        }
-
-        body {
-            overflow: hidden;
-        }
-    </style>
 </head>
 
 <body>
     <script src="/js/jquery.min.js"></script>
     <script src="{{{ scriptUrl }}}"></script>
+    <button id="showSettings" type="button" class="btn btn-default btn-circle"><i
+            class="bi bi-gear gear-icon"></i></button>
+    <div id="settings" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Settings</h4>
+                    <button type="button" class="close-btn closeSettings" data-dismiss="modal" aria-label="Close">
+                        <i class="bi bi-x"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h5>Selected Grid</h5>
+                    <select id="gridType">
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <span>CamViewerPlus v{{{version}}} by Fanman03</span>
+                    <button type="button" class="btn btn-secondary closeSettings" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     {{{body}}}
     <script>
         const streamPort = {{{ streamPort }}};
+        
+        const availableGrids = [{{{ availableGrids }}}].sort(function (a, b) {
+            if (a === Infinity)
+                return 1;
+            else if (isNaN(a))
+                return -1;
+            else
+                return a - b;
+        });
+
+        const thisGrid = {{{ thisGrid }}};
         $("canvas").each(function () {
             let thisId = $(this).data("id");
             let thisCanvas = document.querySelector('[data-id="' + thisId + '"]');
@@ -90,6 +79,27 @@
                 $(this).attr("data-expanded", "true");
             }
         });
+
+        $("#showSettings").click(function () {
+            $("#settings").show();
+        });
+
+        $(".closeSettings").click(function () {
+            $("#settings").hide();
+        });
+
+        availableGrids.forEach((e) => {
+            if (e === thisGrid) {
+                $('#gridType').append('<option value="' + e + '" selected>' + e + '</option>');
+            } else {
+                $('#gridType').append('<option value="' + e + '">' + e + '</option>');
+            }
+        });
+
+        $('#gridType').on('change', function () {
+            window.location.href = window.location.href + "setConfig/gridType/" + this.value;
+        });
+
     </script>
 </body>
 

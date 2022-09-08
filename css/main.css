@@ -1,0 +1,99 @@
+.oneQuarterRow {
+    height: 25vh;
+}
+
+.oneThirdRow {
+    height: 33vh;
+}
+
+.oneThirdRowMiddle {
+    height: 34vh;
+}
+
+.oneHalfRow {
+    height: 50vh;
+}
+
+.wholeRow {
+    height: 100vh;
+}
+
+.oneQuarterCol {
+    width: 25vw;
+}
+
+.oneHalfCol {
+    width: 50vw;
+}
+
+.wholeCol {
+    width: 100vw;
+}
+
+.container-fluid,
+.container,
+.row,
+.col {
+    padding: 0px !important;
+    margin: 0px !important;
+    flex-wrap: nowrap;
+}
+
+body {
+    overflow: hidden;
+    background-color: black;
+}
+
+canvas[data-expanded="false"]:hover {
+    filter: blur(0px);
+}
+
+.btn-circle,
+.btn-circle:active,
+.btn-circle:focus {
+    width: 30px;
+    height: 30px;
+    padding: 6px 0px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 20px;
+    line-height: 1.42857;
+    border: 1px solid white;
+    position: fixed;
+    right: 8px;
+    bottom: 8px;
+    z-index: 1000;
+    opacity: 0.5;
+    color: white;
+}
+
+.btn-circle:hover {
+    opacity: 1;
+    color: white;
+    border: 1px solid white;
+}
+
+.gear-icon {
+    position: relative;
+    top: -6.5px;
+}
+
+.modal {
+    backdrop-filter: blur(5px);
+}
+
+.close-btn {
+    border: 0px transparent;
+    background: transparent;
+}
+
+.close-btn>i {
+    font-size: 20px;
+}
+
+.modal-footer {
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
