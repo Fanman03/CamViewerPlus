@@ -57,4 +57,12 @@ function setGridType(grid) {
     fs.writeFileSync('./conf/config.json', JSON.stringify(content));
 }
 
-module.exports = { get, getAsync, getGrids, setGridType }
+function setKeepAwake(state) {
+    let content = JSON.parse(fs.readFileSync('./conf/config.json', 'utf8'));
+
+    content.settings.keepAwake = state;
+
+    fs.writeFileSync('./conf/config.json', JSON.stringify(content));
+}
+
+module.exports = { get, getAsync, getGrids, setGridType, setKeepAwake }

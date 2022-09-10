@@ -14,8 +14,13 @@
 <body>
     <script src="/js/jquery.min.js"></script>
     <script src="{{{ scriptUrl }}}"></script>
-    <button id="showSettings" type="button" class="btn btn-default btn-circle"><i
-            class="bi bi-gear gear-icon"></i></button>
+    <button class="cta">
+        <i class="bi bi-info gear-icon bi-expand"></i>
+        <span class="button-text">
+            <i class="bi bi-gear gear-icon pe-2 showSettings" title="Settings"></i>
+            <i class="bi bi-arrows-angle-expand gear-icon ps-2 toggleFullscreen" title="Enter fullscreen"></i>
+        </span>
+    </button>
     <div id="settings" class="modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -29,6 +34,9 @@
                     <h5>Selected Grid</h5>
                     <select id="gridType">
                     </select>
+                    <h5 class="mt-3">Keep Screen Awake</h5>
+                    <select id="keepAwake">
+                    </select>
                 </div>
                 <div class="modal-footer">
                     <span>CamViewerPlus v{{{version}}} by Fanman03</span>
@@ -40,7 +48,13 @@
     {{{body}}}
     <script>
         const streamPort = {{{ streamPort }}};
-        
+
+        {{#if keepAwake}}
+        const keepAwake = {{{ keepAwake }}};
+        {{else}}
+        const keepAwake = true;
+        {{/if}}
+
         const availableGrids = [{{{ availableGrids }}}].sort(function (a, b) {
             if (a === Infinity)
                 return 1;
@@ -49,15 +63,32 @@
             else
                 return a - b;
         });
-
         const thisGrid = {{{ thisGrid }}};
+
+        $(document).ready(function () {
+            if (keepAwake == true) {
+                $('#keepAwake').append('<option value="true" selected>Yes</option>');
+                $('#keepAwake').append('<option value="false">No</option>');
+                requestWakeLock();
+            } else {
+                $('#keepAwake').append('<option value="true">Yes</option>');
+                $('#keepAwake').append('<option value="false" selected>No</option>');
+            }
+        });
+
+        $('#keepAwake').on('change', function () {
+            window.location.href = window.location.href + "setConfig/keepAwake/" + this.value;
+        });
+
         $("canvas").each(function () {
             let thisId = $(this).data("id");
             let thisCanvas = document.querySelector('[data-id="' + thisId + '"]');
 
             loadPlayer({
                 url: 'ws://' + location.hostname + ':' + streamPort + '/api/stream/' + thisId,
-                canvas: thisCanvas
+                canvas: thisCanvas,
+                audio: false,
+                chunkSize: 1280 * 720
             });
 
             $(this).width($(this).data("width") + "vw");
@@ -80,8 +111,22 @@
             }
         });
 
-        $("#showSettings").click(function () {
+        $(".showSettings").click(function () {
             $("#settings").show();
+        });
+
+        $(".toggleFullscreen").click(function () {
+            if ((screen.availHeight || screen.height - 30) <= window.innerHeight) {
+                document.exitFullscreen();
+                $(".toggleFullscreen").addClass("bi-arrows-angle-expand");
+                $(".toggleFullscreen").removeClass("bi-arrows-angle-contract");
+                $(".toggleFullscreen").attr("title", "Enter fullscreen");
+            } else {
+                document.documentElement.requestFullscreen();
+                $(".toggleFullscreen").removeClass("bi-arrows-angle-expand");
+                $(".toggleFullscreen").addClass("bi-arrows-angle-contract");
+                $(".toggleFullscreen").attr("title", "Leave fullscreen");
+            }
         });
 
         $(".closeSettings").click(function () {
@@ -100,6 +145,26 @@
             window.location.href = window.location.href + "setConfig/gridType/" + this.value;
         });
 
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
+        // The wake lock sentinel.
+        let wakeLock = null;
+
+        // Function that attempts to request a screen wake lock.
+        const requestWakeLock = async () => {
+            try {
+                wakeLock = await navigator.wakeLock.request();
+                wakeLock.addEventListener('release', () => {
+                console.log('Screen Wake Lock released:', wakeLock.released);
+                });
+                console.log('Screen Wake Lock released:', wakeLock.released);
+            } catch (err) {
+                console.error(`${err.name}, ${err.message}`);
+            }
+        };
     </script>
 </body>
 

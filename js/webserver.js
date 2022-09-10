@@ -21,6 +21,7 @@ function start() {
     app.use('/css', express.static(path.join(__dirname, '../node_modules/bootstrap-icons/font')));
     app.use('/js', express.static(path.join(__dirname, '../node_modules/bootstrap/dist/js')));
     app.use('/js', express.static(path.join(__dirname, '../node_modules/jquery/dist')));
+    app.use('/js', express.static(path.join(__dirname, '../node_modules/@popperjs/core/dist/cjs')));
 
     app.get('/', async (req, res) => {
         let freshConfig = await config.get();
@@ -31,15 +32,18 @@ function start() {
             scriptUrl: scriptUrl,
             availableGrids: availableGrids,
             thisGrid: freshConfig.settings.gridType,
-            version: pjson.version
+            version: pjson.version,
+            keepAwake: freshConfig.settings.keepAwake
         });
     });
 
     app.get('/setConfig/:option/:value', async (req, res) => {
         let option = req.params.option;
         let value = req.params.value;
-        if(option === "gridType") {
+        if (option === "gridType") {
             config.setGridType(value);
+        } else if (option === "keepAwake") {
+            config.setKeepAwake(value);
         }
         res.redirect("/");
     });

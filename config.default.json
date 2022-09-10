@@ -1,6 +1,7 @@
 {
     "settings": {
         "gridType": "4",
+        "keepAwake":true,
         "cameras": [
             {
                 "position": "0",
