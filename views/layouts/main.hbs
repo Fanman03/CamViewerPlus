@@ -8,10 +8,17 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-icons.css">
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <meta name="msapplication-TileColor" content="#006fff">
+    <meta name="theme-color" content="#006fff">
     <title>CamViewerPlus</title>
 </head>
 
 <body>
+    {{#if keepAwake }}
+    <video autoplay="{{{ keepAwake }}}" width="10" height="10" style="position: absolute; top: -10px; left: -10px;" loop="loop"><source src="/assets/muted-blank.mp4" type="video/mp4"><source src="/assets/muted-blank.ogv" type="video/ogg"></video>
+    {{/if}}
     <script src="/js/jquery.min.js"></script>
     <script src="{{{ scriptUrl }}}"></script>
     <button class="cta">
@@ -55,6 +62,7 @@
         const keepAwake = true;
         {{/if}}
 
+
         const availableGrids = [{{{ availableGrids }}}].sort(function (a, b) {
             if (a === Infinity)
                 return 1;
@@ -69,7 +77,6 @@
             if (keepAwake == true) {
                 $('#keepAwake').append('<option value="true" selected>Yes</option>');
                 $('#keepAwake').append('<option value="false">No</option>');
-                requestWakeLock();
             } else {
                 $('#keepAwake').append('<option value="true">Yes</option>');
                 $('#keepAwake').append('<option value="false" selected>No</option>');
@@ -99,7 +106,6 @@
         });
 
         $("canvas").click(function () {
-
             if ($(this).attr("data-expanded") === 'true') {
                 $(this).attr("style", "");
                 $(this).width($(this).data("width") + "vw");
@@ -149,22 +155,6 @@
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         })
-
-        // The wake lock sentinel.
-        let wakeLock = null;
-
-        // Function that attempts to request a screen wake lock.
-        const requestWakeLock = async () => {
-            try {
-                wakeLock = await navigator.wakeLock.request();
-                wakeLock.addEventListener('release', () => {
-                console.log('Screen Wake Lock released:', wakeLock.released);
-                });
-                console.log('Screen Wake Lock released:', wakeLock.released);
-            } catch (err) {
-                console.error(`${err.name}, ${err.message}`);
-            }
-        };
     </script>
 </body>
 

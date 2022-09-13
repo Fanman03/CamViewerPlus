@@ -10,7 +10,8 @@ function start() {
             url: configData.settings.cameras[i].source,
             // if your RTSP stream need credentials, include them in the URL as above
             verbose: false,
-            additionalFlags: ['-q', '5'],
+            additionalFlags: ['-q', '2'],
+            transport: 'tcp'
         });
         app.ws('/api/stream/' + configData.settings.cameras[i].position, thisHandler);
 
