@@ -34,7 +34,7 @@ function start() {
         let gridName = freshConfig.settings.gridType + "-grid";
         res.render(gridName, {
             streamPort: configData.settings.streamPort,
-            scriptUrl: scriptUrl,
+            scriptUrl: "/assets/jsmpeg.min.js",
             availableGrids: availableGrids,
             thisGrid: freshConfig.settings.gridType,
             version: pjson.version,

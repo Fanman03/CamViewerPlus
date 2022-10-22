@@ -1,6 +1,6 @@
 {
   "name": "camviewerplus",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A customizable browser-based RTSP viewer with multiple grid views.",
   "main": "app.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "express": "^4.18.1",
     "express-handlebars": "^6.0.6",
     "jquery": "^3.6.1",
-    "jsmpeg": "^1.0.0",
+    "jsmpeg-fast-player": "^0.2.0",
     "path": "^0.12.7",
     "rtsp-relay": "^1.6.1"
   }

@@ -45,8 +45,8 @@
                     <select id="keepAwake">
                     </select>
                 </div>
-                <div class="modal-footer">
-                    <span>CamViewerPlus v{{{version}}} by Fanman03</span>
+                <div class="modal-footer fs-6">
+                    <span><img src="assets/thornhill.png" class="thornhill-logo pe-2" title="A Thornhill Corporation project.">CamViewerPlus v{{{version}}} by Fanman03</span>
                     <button type="button" class="btn btn-secondary closeSettings" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -74,6 +74,7 @@
         const thisGrid = {{{ thisGrid }}};
 
         $(document).ready(function () {
+
             if (keepAwake == true) {
                 $('#keepAwake').append('<option value="true" selected>Yes</option>');
                 $('#keepAwake').append('<option value="false">No</option>');
@@ -90,20 +91,66 @@
         $("canvas").each(function () {
             let thisId = $(this).data("id");
             let thisCanvas = document.querySelector('[data-id="' + thisId + '"]');
+            let thisNotInit = true;
+            let wsString = 'ws://' + location.hostname + ':' + streamPort + '/api/stream/' + thisId;
 
-            loadPlayer({
-                url: 'ws://' + location.hostname + ':' + streamPort + '/api/stream/' + thisId,
-                canvas: thisCanvas,
-                audio: false,
-                chunkSize: 1280 * 720
-            });
-
+            let testWs = new WebSocket(wsString);
+            
             $(this).width($(this).data("width") + "vw");
             $(this).height($(this).data("height") + "vh");
 
-            $(this).attr("data-expanded", "false");
+            setTimeout(function() {
+                showError(thisCanvas);
+            }, 4000)
 
+            testWs.onmessage  = function() {
+                if(thisNotInit){
+                    let thisPlayer = new JSMpeg.Player(
+                        wsString,
+                        {
+                        canvas: thisCanvas,
+                        audio: false,
+                        chunkSize: 1280 * 720,
+                        }
+                    );
+
+                    $(this).attr("data-expanded", "false");
+                    thisNotInit = false;
+                } else {
+                    testWs.close();
+                }
+            };
         });
+
+        function showError(canvas) {
+            try{
+                var ctx = canvas.getContext("2d");
+                ctx.fillStyle = "black";
+                ctx.fillRect(0,0,canvas.width,canvas.height);
+                const x = canvas.width / 2;
+
+                ctx.strokeStyle = "#50525e";
+                let path = new Path2D("M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2V5zm11.5 5.175 3.5 1.556V4.269l-3.5 1.556v4.35zM2 4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H2z");
+                ctx.translate(134, 55);
+                ctx.scale(2, 2);
+                ctx.stroke(path);
+                ctx.resetTransform();
+
+                ctx.beginPath();
+                ctx.arc(x, 70, 25, 0, 2 * Math.PI);
+                ctx.moveTo(132,53);
+                ctx.lineTo(165,90);
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+
+                ctx.fillStyle = "#50525e";
+                ctx.textAlign = 'center';
+                ctx.font = "12px Segoe UI";
+                ctx.fillText("No camera assigned", x, 110);
+            } catch {
+
+            }
+        }
 
         $("canvas").click(function () {
             if ($(this).attr("data-expanded") === 'true') {

@@ -136,3 +136,7 @@ canvas[data-expanded="false"]:hover {
     align-items: center;
     justify-content: space-between;
 }
+
+.thornhill-logo {
+    height: 1.25rem;
+}
