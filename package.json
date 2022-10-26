@@ -17,6 +17,7 @@
     "express-handlebars": "^6.0.6",
     "jquery": "^3.6.1",
     "jsmpeg-fast-player": "^0.2.0",
+    "panzoom": "^9.4.3",
     "path": "^0.12.7",
     "rtsp-relay": "^1.6.1"
   }

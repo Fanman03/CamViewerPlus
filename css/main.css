@@ -75,6 +75,36 @@ canvas[data-expanded="false"]:hover {
     opacity: 0.5;
 }
 
+.minView {
+    width: 30px;
+    height: 30px;
+    padding: 6px 0px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 20px;
+    line-height: 1.42857;
+    border: 1px solid white;
+    color: #fff;
+    transition: width 0.7s;
+    position: fixed;
+    right: 8px;
+    top: 8px;
+    z-index: 1000;
+    background-color: transparent;
+    opacity: 0.5;
+}
+
+.shade {
+    background-color: black;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
+}
+
+.minView:hover {
+    opacity: 1.0;
+}
+
 .cta:hover {
     width: 95px;
     transition: width 0.5s;
@@ -112,7 +142,7 @@ canvas[data-expanded="false"]:hover {
     border: 1px solid white;
 }
 
-.gear-icon {
+.circled-icon {
     position: relative;
     top: -6.5px;
 }

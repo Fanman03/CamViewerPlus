@@ -13,6 +13,7 @@
 
 ## Feature Tracker
 ☑ Customizable grid views
-☐ Hardware acceleration
-☐ Pan / Zoom (digital)
+
+☑ Pan / Zoom (digital)
+
 ☐ Multiple streams per camera

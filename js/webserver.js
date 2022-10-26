@@ -22,6 +22,7 @@ function start() {
     app.use('/js', express.static(path.join(__dirname, '../node_modules/bootstrap/dist/js')));
     app.use('/js', express.static(path.join(__dirname, '../node_modules/jquery/dist')));
     app.use('/js', express.static(path.join(__dirname, '../node_modules/@popperjs/core/dist/cjs')));
+    app.use('/js', express.static(path.join(__dirname, '../node_modules/panzoom/dist/')));
     app.use('/assets', express.static(path.join(__dirname, '../assets')));
     app.use('/favicon-32x32.png', express.static(path.join(__dirname, '../assets/favicon-32x32.png')));
     app.use('/favicon-16x16.png', express.static(path.join(__dirname, '../assets/favicon-16x16.png')));

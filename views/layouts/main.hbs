@@ -20,14 +20,19 @@
     <video autoplay="{{{ keepAwake }}}" width="10" height="10" style="position: absolute; top: -10px; left: -10px;" loop="loop"><source src="/assets/muted-blank.mp4" type="video/mp4"><source src="/assets/muted-blank.ogv" type="video/ogg"></video>
     {{/if}}
     <script src="/js/jquery.min.js"></script>
+    <script src="/js/panzoom.min.js"></script>
     <script src="{{{ scriptUrl }}}"></script>
     <button class="cta">
-        <i class="bi bi-info gear-icon bi-expand"></i>
+        <i class="bi bi-info circled-icon bi-expand"></i>
         <span class="button-text">
-            <i class="bi bi-gear gear-icon pe-2 showSettings" title="Settings"></i>
-            <i class="bi bi-arrows-angle-expand gear-icon ps-2 toggleFullscreen" title="Enter fullscreen"></i>
+            <i class="bi bi-gear circled-icon pe-2 showSettings" title="Settings"></i>
+            <i class="bi bi-arrows-angle-expand circled-icon ps-2 toggleFullscreen" title="Enter fullscreen"></i>
         </span>
     </button>
+    <button class="minView" style="display: none;">
+        <i class="bi bi-x circled-icon" title="Close Popout"></i>
+    </button>
+    <div class="shade" style="display: none;"></div>
     <div id="settings" class="modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -62,6 +67,11 @@
         const keepAwake = true;
         {{/if}}
 
+        const pzargs = {minZoom: 1, bounds: true, boundsPadding: 0.5};
+
+        let activeCanvas;
+
+        let activePz;
 
         const availableGrids = [{{{ availableGrids }}}].sort(function (a, b) {
             if (a === Infinity)
@@ -153,23 +163,55 @@
             }
         }
 
-        $("canvas").click(function () {
+        function minimizeView(canvas) {
+
+        }
+
+        $("canvas").mouseup(function () {
             if ($(this).attr("data-expanded") === 'true') {
-                $(this).attr("style", "");
-                $(this).width($(this).data("width") + "vw");
-                $(this).height($(this).data("height") + "vh");
-                $(this).attr("data-expanded", "false");
+
             } else {
                 $(this).attr("style", "position: fixed; top: 0; left: 0; height: 100vh; width: 100vw;")
                 $(this).attr("data-expanded", "true");
+
+                activePz = panzoom(this,pzargs);
+
+                $(".minView").show();
+                $(".shade").show();
+
+                activeCanvas = this;
             }
         });
+
+        $(document).on(
+            'keydown', function(event) {
+                if (event.key == "Escape") {
+                    minimizePopout();
+                }
+        });
+
+        $(".minView").click(function () {
+            minimizePopout();
+        });
+
+        function minimizePopout() {
+            activePz.dispose();
+
+            $(activeCanvas).attr("style", "transform: 0;");
+            $(activeCanvas).width($(activeCanvas).data("width") + "vw");
+            $(activeCanvas).height($(activeCanvas).data("height") + "vh");
+            $(activeCanvas).attr("data-expanded", "false");
+
+            $(".minView").hide();
+            $(".shade").hide();
+            let thisActiveCanvas = activeCanvas;
+        }
 
         $(".showSettings").click(function () {
             $("#settings").show();
         });
 
-        $(".toggleFullscreen").click(function () {
+        $(".toggleFullscreen").mouseup(function () {
             if ((screen.availHeight || screen.height - 30) <= window.innerHeight) {
                 document.exitFullscreen();
                 $(".toggleFullscreen").addClass("bi-arrows-angle-expand");
