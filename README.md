@@ -2,7 +2,9 @@
 
 ### A customizable browser-based RTSP viewer with multiple grid views.
 
-*This project is currently under development, and is not recommended for production use.* 
+## Client
+Due to issues with some web browsers, a standalone client exists that is optimized for viewing streams.
+[CamViewerPlus Client](https://github.com/Fanman03/CamViewerPlus-Client/)
 
 ## Getting Started
 1. Ensure Node.JS and NPM are installed.
