@@ -39,7 +39,23 @@ function start() {
             availableGrids: availableGrids,
             thisGrid: freshConfig.settings.gridType,
             version: pjson.version,
-            keepAwake: freshConfig.settings.keepAwake
+            keepAwake: freshConfig.settings.keepAwake,
+            kioskMode: false
+        });
+    });
+
+    app.get('/kiosk', async (req, res) => {
+        let freshConfig = await config.get();
+        let availableGrids = await config.getGrids();
+        let gridName = freshConfig.settings.gridType + "-grid";
+        res.render(gridName, {
+            streamPort: configData.settings.streamPort,
+            scriptUrl: "/assets/jsmpeg.min.js",
+            availableGrids: availableGrids,
+            thisGrid: freshConfig.settings.gridType,
+            version: pjson.version,
+            keepAwake: freshConfig.settings.keepAwake,
+            kioskMode: true
         });
     });
 
