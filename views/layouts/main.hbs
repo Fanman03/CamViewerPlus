@@ -25,13 +25,20 @@
     <script src="/js/jquery.min.js"></script>
     <script src="/js/panzoom.min.js"></script>
     <script src="{{{ scriptUrl }}}"></script>
+    {{#if kioskMode}}
+    <button class="cta-fixed" onClick="reloadPage()">
+        <i class="bi bi-arrow-repeat circled-icon reloadPage" title="Reload"></i>
+    </button>
+    {{else}}
     <button class="cta">
         <i class="bi bi-info circled-icon bi-expand"></i>
         <span class="button-text">
-            <i class="bi bi-gear circled-icon pe-2 showSettings" title="Settings"></i>
-            <i class="bi bi-arrows-angle-expand circled-icon ps-2 toggleFullscreen" title="Enter fullscreen"></i>
+            <i class="bi bi-gear circled-icon px-2 showSettings" title="Settings"></i>
+            <i class="bi bi-arrow-repeat circled-icon px-2 reloadPage" title="Reload"></i>
+            <i class="bi bi-arrows-angle-expand circled-icon px-2 toggleFullscreen" title="Enter fullscreen"></i>
         </span>
     </button>
+    {{/if}}
     <button class="minView" style="display: none;">
         <i class="bi bi-x circled-icon" title="Close Popout"></i>
     </button>
@@ -209,6 +216,13 @@
             $(".shade").hide();
             let thisActiveCanvas = activeCanvas;
         }
+
+        $(".reloadPage").click(function () {
+            $(".reloadPage").addClass("icon-spin");
+            setTimeout(function(){
+            window.location.reload(1);
+            }, 500);
+        });
 
         $(".showSettings").click(function () {
             $("#settings").show();

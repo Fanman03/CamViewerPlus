@@ -56,7 +56,8 @@ canvas[data-expanded="false"]:hover {
     text-align: center;
 }
 
-.cta {
+.cta,
+.cta-fixed {
     width: 30px;
     height: 30px;
     padding: 6px 0px;
@@ -105,13 +106,18 @@ canvas[data-expanded="false"]:hover {
     opacity: 1.0;
 }
 
+.cta-fixed:hover {
+    opacity: 1.0;
+}
+
 .cta:hover {
-    width: 95px;
+    width: 130px;
     transition: width 0.5s;
     opacity: 1.0;
 }
 
-.cta i {
+.cta i,
+.cta-fixed i {
     opacity: 1;
 }
 
@@ -170,3 +176,17 @@ canvas[data-expanded="false"]:hover {
 .thornhill-logo {
     height: 1.25rem;
 }
+
+.icon-spin {
+    animation: spin-animation 2.0s infinite;
+    display: inline-block;
+  }
+  
+  @keyframes spin-animation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(359deg);
+    }
+  }
