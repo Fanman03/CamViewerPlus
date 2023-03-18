@@ -44,25 +44,28 @@
     </button>
     <div class="shade" style="display: none;"></div>
     <div id="settings" class="modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
+        <div class="modal-dialog text-white" role="document">
+            <div class="modal-content bg-dark">
+                <div class="modal-header bg-dark">
                     <h4 class="modal-title">Settings</h4>
                     <button type="button" class="close-btn closeSettings" data-dismiss="modal" aria-label="Close">
-                        <i class="bi bi-x"></i>
+                        <i class="bi bi-x text-white"></i>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body bg-dark">
                     <h5>Selected Grid</h5>
                     <select id="gridType">
                     </select>
                     <h5 class="mt-3">Keep Screen Awake</h5>
                     <select id="keepAwake">
                     </select>
+                    <h5 class="mt-3">Kiosk Mode</h5>
+                    <p>
+                        <a class="btn btn-primary" href="/kiosk">Switch to Kiosk Mode</a>
+                    </p>
                 </div>
-                <div class="modal-footer fs-6">
-                    <span><img src="assets/thornhill.png" class="thornhill-logo pe-2" title="A Thornhill Corporation project.">CamViewerPlus v{{{version}}} by Fanman03</span>
-                    <button type="button" class="btn btn-secondary closeSettings" data-dismiss="modal">Close</button>
+                <div class="modal-footer bg-dark fs-6">
+                    <span><img src="assets/camviewer.png" class="thornhill-logo pe-2" title="A Thornhill Corporation project."><a href="https://github.com/Fanman03/CamViewerPlus">CamViewerPlus</a> v{{{version}}} by <a href="https://github.com/Fanman03">Jack Pendleton</a></span>
                 </div>
             </div>
         </div>
@@ -239,6 +242,15 @@
                 $(".toggleFullscreen").removeClass("bi-arrows-angle-expand");
                 $(".toggleFullscreen").addClass("bi-arrows-angle-contract");
                 $(".toggleFullscreen").attr("title", "Leave fullscreen");
+            }
+        });
+
+        $(".thornhill-logo").on({
+            mouseenter: function () {
+                $(".thornhill-logo").attr("src","assets/thornhill.png");
+            },
+            mouseleave: function () {
+                $(".thornhill-logo").attr("src","assets/camviewer.png");
             }
         });
 

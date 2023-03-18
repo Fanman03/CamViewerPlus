@@ -180,13 +180,22 @@ canvas[data-expanded="false"]:hover {
 .icon-spin {
     animation: spin-animation 2.0s infinite;
     display: inline-block;
-  }
-  
-  @keyframes spin-animation {
+}
+
+@keyframes spin-animation {
     0% {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
+
     100% {
-      transform: rotate(359deg);
+        transform: rotate(359deg);
     }
-  }
+}
+
+.modal-footer.bg-dark {
+    border-top-color: rgb(0 0 0 / 35%);
+}
+
+.modal-header.bg-dark {
+    border-bottom-color: rgb(0 0 0 / 35%);
+}
