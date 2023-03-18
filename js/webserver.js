@@ -73,6 +73,11 @@ function start() {
     app.listen(configData.settings.uiPort, () => {
         console.log(`Web server listening on port ${configData.settings.uiPort}`);
     });
+
+    //404 route - MUST COME LAST
+    app.get('*', function (req, res) {
+        res.render('404', { layout: 'error', errorCode: '404', errorShortDesc: 'Page not found.', errorDesc: 'The page you’re looking for doesn’t exist.' });
+    });
 }
 
 module.exports = { start }
