@@ -17,7 +17,7 @@ function start() {
 
     }
     app.listen(configData.settings.streamPort);
-    console.log("started stream on port " + configData.settings.streamPort);
+    console.log("Started " + configData.settings.cameras.length + " stream(s) on port " + configData.settings.streamPort);
 }
 
 module.exports = { start }
