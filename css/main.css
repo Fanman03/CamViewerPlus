@@ -199,3 +199,34 @@ canvas[data-expanded="false"]:hover {
 .modal-header.bg-dark {
     border-bottom-color: rgb(0 0 0 / 35%);
 }
+
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #006fff;
+    --bs-btn-border-color: #006fff;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #0b5ed7;
+    --bs-btn-hover-border-color: #0a58ca;
+    --bs-btn-focus-shadow-rgb: 49,132,253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #0a58ca;
+    --bs-btn-active-border-color: #0a53be;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #006fff;
+    --bs-btn-disabled-border-color: #006fff;
+}
+
+a {
+    color: #006fff;
+}
+
+.dropdown-item-selected {
+    color: var(--bs-dropdown-link-hover-color);
+    background-color: var(--bs-dropdown-link-hover-bg);
+}
+
+.form-check-input:checked {
+    background-color: #006fff;
+    border-color: #006fff;
+}

@@ -67,7 +67,7 @@ function start() {
         } else if (option === "keepAwake") {
             config.setKeepAwake(value);
         }
-        res.redirect("/");
+        res.redirect("/#settings");
     });
 
     app.listen(configData.settings.uiPort, () => {

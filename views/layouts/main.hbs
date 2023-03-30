@@ -24,6 +24,7 @@
     {{/if}}
     <script src="/js/jquery.min.js"></script>
     <script src="/js/panzoom.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
     <script src="{{{ scriptUrl }}}"></script>
     {{#if kioskMode}}
     <button class="cta-fixed" onClick="reloadPage()">
@@ -48,17 +49,23 @@
             <div class="modal-content bg-dark">
                 <div class="modal-header bg-dark">
                     <h4 class="modal-title">Settings</h4>
-                    <button type="button" class="close-btn closeSettings" data-dismiss="modal" aria-label="Close">
+                    <a type="button" class="close-btn closeSettings" data-dismiss="modal" aria-label="Close" href="#">
                         <i class="bi bi-x text-white"></i>
-                    </button>
+                    </a>
                 </div>
                 <div class="modal-body bg-dark">
                     <h5>Selected Grid</h5>
-                    <select id="gridType">
-                    </select>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="gridTitle" data-bs-toggle="dropdown" aria-expanded="false">
+                        </button>
+                        <ul class="dropdown-menu" id="grid-menu" aria-labelledby="gridTitle">
+                        </ul>
+                    </div>
                     <h5 class="mt-3">Keep Screen Awake</h5>
-                    <select id="keepAwake">
-                    </select>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="keepAwakeSwitch" onclick='setKeepAwake(this);'>
+                        <label class="form-check-label" for="flexSwitchCheckChecked" id="keepAwakeSwitchLabel"></label>
+                    </div>
                     <h5 class="mt-3">Kiosk Mode</h5>
                     <p>
                         <a class="btn btn-primary" href="/kiosk">Switch to Kiosk Mode</a>
@@ -80,7 +87,7 @@
         const keepAwake = true;
         {{/if}}
 
-        const pzargs = {minZoom: 1, bounds: true, boundsPadding: 0.5};
+        const pzargs = {minZoom: 1, bounds: false, boundsPadding: 0.5};
 
         let activeCanvas;
 
@@ -99,17 +106,22 @@
         $(document).ready(function () {
 
             if (keepAwake == true) {
-                $('#keepAwake').append('<option value="true" selected>Yes</option>');
-                $('#keepAwake').append('<option value="false">No</option>');
+                $('#keepAwakeSwitch').prop('checked', true);
+                $('#keepAwakeSwitchLabel').text('Enabled');
             } else {
-                $('#keepAwake').append('<option value="true">Yes</option>');
-                $('#keepAwake').append('<option value="false" selected>No</option>');
+                $('#keepAwakeSwitch').prop('checked', false);
+                $('#keepAwakeSwitchLabel').text('Disabled');
+            }
+
+            var hash = $(location).prop('hash');
+            if(hash === "#settings") {
+                $("#settings").show();
             }
         });
 
-        $('#keepAwake').on('change', function () {
-            window.location.href = window.location.href + "setConfig/keepAwake/" + this.value;
-        });
+        function setKeepAwake(box) {
+            window.location.href = window.location.protocol+'//'+window.location.host+window.location.pathname + "setConfig/keepAwake/" + box.checked;
+        }
 
         $("canvas").each(function () {
             let thisId = $(this).data("id");
@@ -260,9 +272,10 @@
 
         availableGrids.forEach((e) => {
             if (e === thisGrid) {
-                $('#gridType').append('<option value="' + e + '" selected>' + e + '</option>');
+                $('#gridTitle').text(e);
+                $('#grid-menu').append('<li><a class="dropdown-item dropdown-item-selected" href="/setConfig/gridType/'+e+'">'+e+'</a></li>');
             } else {
-                $('#gridType').append('<option value="' + e + '">' + e + '</option>');
+                $('#grid-menu').append('<li><a class="dropdown-item" href="/setConfig/gridType/'+e+'">'+e+'</a></li>');
             }
         });
 
