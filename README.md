@@ -27,7 +27,7 @@ volumes:
 1. Ensure Node.JS and NPM are installed.
 2. Clone the git repo.
 3. Run `npm i` to install all dependencies.
-4. Run `npm start`. If all went well, a web UI should be live at `http://server-ip:6980`.
+4. Run `npm run start-prod`. If all went well, a web UI should be live at `http://server-ip:6980`.
 5. Edit `config.json` to suit your own preferences.
 4. Once configuration changes have been made, restart the app.
 

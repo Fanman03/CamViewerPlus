@@ -16,4 +16,4 @@ COPY . .
 EXPOSE 6900
 EXPOSE 6980
 
-CMD [ "node", "app.js" ]
+CMD [ "npm", "run", "start-prod" ]

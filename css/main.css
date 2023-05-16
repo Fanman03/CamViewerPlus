@@ -230,3 +230,8 @@ a {
     background-color: #006fff;
     border-color: #006fff;
 }
+
+.info-icon {
+    font-size: 10px;
+    margin-left: 6px;
+}

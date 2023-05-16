@@ -4,14 +4,15 @@ const app = express();
 const { proxy, scriptUrl } = require('rtsp-relay')(app);
 
 function start() {
+    process.setMaxListeners(0);
     let configData = config.get();
     for (let i = 0; i < configData.settings.cameras.length; i++) {
         let thisHandler = proxy({
             url: configData.settings.cameras[i].source,
             // if your RTSP stream need credentials, include them in the URL as above
             verbose: false,
-            additionalFlags: ['-q', '2'],
-            transport: 'tcp'
+            additionalFlags: ['-q', configData.settings.quality],
+            transport: configData.settings.transportProtocol
         });
         app.ws('/api/stream/' + configData.settings.cameras[i].position, thisHandler);
 

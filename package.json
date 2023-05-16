@@ -1,10 +1,11 @@
 {
   "name": "camviewerplus",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A customizable browser-based RTSP viewer with multiple grid views.",
   "main": "app.js",
   "scripts": {
     "start": "node .",
+    "start-prod": "pm2 start app.js --name camviewer",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jack Pendleton",
@@ -15,10 +16,12 @@
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "express-handlebars": "^6.0.6",
+    "forever": "^4.0.3",
     "jquery": "^3.6.1",
     "jsmpeg-fast-player": "^0.2.0",
     "panzoom": "^9.4.3",
     "path": "^0.12.7",
+    "pm2": "^5.3.0",
     "rtsp-relay": "^1.6.1"
   }
 }

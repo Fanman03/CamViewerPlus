@@ -70,6 +70,36 @@
                     <p>
                         <a class="btn btn-primary" href="/kiosk">Switch to Kiosk Mode</a>
                     </p>
+                    <h5 class="mt-3">Transport Protocol<span><i class="bi bi-info-circle info-icon" title="Requires service restart to take effect"></i></span></h5>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="transportMode"
+                            data-bs-toggle="dropdown" aria-expanded="false"></button>
+                        <ul class="dropdown-menu" id="grid-menu" aria-labelledby="transportMode">
+                            <li><a class="dropdown-item" href="/setConfig/transportProtocol/tcp" id="tcpItem">TCP (higher quality, more data usage)</a></li>
+                            <li><a class="dropdown-item" href="/setConfig/transportProtocol/udp" id="udpItem">UDP (lower quality, less data usage)</a></li>
+                        </ul>
+                    </div>
+                    <h5 class="mt-3">Video Quality<span><i class="bi bi-info-circle info-icon" title="Requires service restart to take effect"></i></span></h5>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="videoQuality"
+                            data-bs-toggle="dropdown" aria-expanded="false"></button>
+                        <ul class="dropdown-menu" id="grid-menu" aria-labelledby="videoQuality">
+                            <li><a class="dropdown-item" href="/setConfig/quality/1">1 (highest quality and data usage)</a></li>
+                            <li><a class="dropdown-item" href="/setConfig/quality/2">2</a></li>
+                            <li><a class="dropdown-item" href="/setConfig/quality/3">3</a></li>
+                            <li><a class="dropdown-item" href="/setConfig/quality/4">4</a></li>
+                            <li><a class="dropdown-item" href="/setConfig/quality/5">5</a></li>
+                            <li><a class="dropdown-item" href="/setConfig/quality/6">6</a></li>
+                            <li><a class="dropdown-item" href="/setConfig/quality/7">7</a></li>
+                            <li><a class="dropdown-item" href="/setConfig/quality/8">8</a></li>
+                            <li><a class="dropdown-item" href="/setConfig/quality/9">9</a></li>
+                            <li><a class="dropdown-item" href="/setConfig/quality/10">10 (lowest quality and data usage)</a></li>
+                        </ul>
+                    </div>
+                    <h5 class="mt-3">Restart Service</h5>
+                    <p>
+                        <a class="btn btn-danger" href="/restartService">Restart CamViewerPlus Service</a>
+                    </p>
                 </div>
                 <div class="modal-footer bg-dark fs-6">
                     <span><img src="assets/camviewer.png" class="thornhill-logo pe-2" title="A Thornhill Corporation project."><a href="https://github.com/Fanman03/CamViewerPlus">CamViewerPlus</a> v{{{version}}} by <a href="https://github.com/Fanman03">Jack Pendleton</a></span>
@@ -85,6 +115,18 @@
         const keepAwake = {{{ keepAwake }}};
         {{else}}
         const keepAwake = true;
+        {{/if}}
+
+        {{#if transportProtocol}}
+        const transportProtocol = "{{{ transportProtocol }}}";
+        {{else}}
+        const transportProtocol = "tcp";
+        {{/if}}
+
+        {{#if quality}}
+        const quality = {{{ quality }}};
+        {{else}}
+        const quality = 1;
         {{/if}}
 
         const pzargs = {minZoom: 1, bounds: false, boundsPadding: 0.5};
@@ -112,6 +154,16 @@
                 $('#keepAwakeSwitch').prop('checked', false);
                 $('#keepAwakeSwitchLabel').text('Disabled');
             }
+
+            if(transportProtocol == "tcp") {
+                $("#transportMode").text("TCP");
+                $("#tcpItem").addClass("dropdown-item-selected");
+            } else if (transportProtocol == "udp"){
+                $("#transportMode").text("UDP");
+                $("#udpItem").addClass("dropdown-item-selected"); 
+            }
+
+            $("#videoQuality").text(quality);
 
             var hash = $(location).prop('hash');
             if(hash === "#settings") {

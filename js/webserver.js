@@ -7,6 +7,7 @@ const fs = require("fs");
 const config = require("../js/config");
 const { proxy, scriptUrl } = require('rtsp-relay')(app);
 const pjson = require('../package.json');
+var pm2 = require('pm2');
 
 function start() {
     let configData = config.get();
@@ -40,7 +41,9 @@ function start() {
             thisGrid: freshConfig.settings.gridType,
             version: pjson.version,
             keepAwake: freshConfig.settings.keepAwake,
-            kioskMode: false
+            kioskMode: false,
+            transportProtocol: freshConfig.settings.transportProtocol,
+            quality: freshConfig.settings.quality
         });
     });
 
@@ -55,7 +58,9 @@ function start() {
             thisGrid: freshConfig.settings.gridType,
             version: pjson.version,
             keepAwake: freshConfig.settings.keepAwake,
-            kioskMode: true
+            kioskMode: true,
+            transportProtocol: freshConfig.settings.transportProtocol,
+            quality: freshConfig.settings.quality
         });
     });
 
@@ -66,9 +71,28 @@ function start() {
             config.setGridType(value);
         } else if (option === "keepAwake") {
             config.setKeepAwake(value);
+        } else if (option === "transportProtocol") {
+            config.setTransportProtocol(value);
+        } else if (option === "quality") {
+            config.setQuality(value);
         }
         res.redirect("/#settings");
     });
+
+    app.get("/restartService", (req, res)=> {
+        pm2.connect(function(err) {
+            if (err) {
+              console.error(err);
+              process.exit(2);
+            }
+          
+            pm2.restart('camviewer', function(err) {
+              pm2.disconnect();   // Disconnects from PM2
+              if (err) throw err
+            });
+          });
+          res.redirect("/#settings");     
+    })
 
     app.listen(configData.settings.uiPort, () => {
         console.log(`Web server listening on port ${configData.settings.uiPort}`);

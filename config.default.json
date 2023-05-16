@@ -21,6 +21,8 @@
             }
         ],
         "streamPort": "6900",
-        "uiPort": "6980"
+        "uiPort": "6980",
+        "transportProtocol":"tcp",
+        "quality":"3"
     }
 }

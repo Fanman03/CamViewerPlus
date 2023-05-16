@@ -65,4 +65,20 @@ function setKeepAwake(state) {
     fs.writeFileSync('./conf/config.json', JSON.stringify(content));
 }
 
-module.exports = { get, getAsync, getGrids, setGridType, setKeepAwake }
+function setTransportProtocol(protocol) {
+    let content = JSON.parse(fs.readFileSync('./conf/config.json', 'utf8'));
+
+    content.settings.transportProtocol = protocol;
+
+    fs.writeFileSync('./conf/config.json', JSON.stringify(content));
+}
+
+function setQuality(quality) {
+    let content = JSON.parse(fs.readFileSync('./conf/config.json', 'utf8'));
+
+    content.settings.quality = quality;
+
+    fs.writeFileSync('./conf/config.json', JSON.stringify(content));
+}
+
+module.exports = { get, getAsync, getGrids, setGridType, setKeepAwake, setTransportProtocol, setQuality }
