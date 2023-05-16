@@ -39,6 +39,7 @@ function start() {
             scriptUrl: "/assets/jsmpeg.min.js",
             availableGrids: availableGrids,
             thisGrid: freshConfig.settings.gridType,
+            defaultGrid: freshConfig.settings.gridType,
             version: pjson.version,
             keepAwake: freshConfig.settings.keepAwake,
             kioskMode: false,
@@ -56,12 +57,59 @@ function start() {
             scriptUrl: "/assets/jsmpeg.min.js",
             availableGrids: availableGrids,
             thisGrid: freshConfig.settings.gridType,
+            defaultGrid: freshConfig.settings.gridType,
             version: pjson.version,
             keepAwake: freshConfig.settings.keepAwake,
             kioskMode: true,
             transportProtocol: freshConfig.settings.transportProtocol,
             quality: freshConfig.settings.quality
         });
+    });
+
+    app.get('/grids/:grid', async (req, res) => {
+        let freshConfig = await config.get();
+        let availableGrids = await config.getGrids();
+        let gridName = req.params.grid + "-grid";
+        if(fs.existsSync("./views/" + gridName + ".hbs")) {
+            res.render(gridName, {
+                streamPort: configData.settings.streamPort,
+                scriptUrl: "/assets/jsmpeg.min.js",
+                availableGrids: availableGrids,
+                thisGrid: req.params.grid,
+                defaultGrid: freshConfig.settings.gridType,
+                version: pjson.version,
+                keepAwake: freshConfig.settings.keepAwake,
+                kioskMode: false,
+                transportProtocol: freshConfig.settings.transportProtocol,
+                quality: freshConfig.settings.quality
+            });
+        } else {
+            res.render('404', { layout: 'error', errorCode: '404', errorShortDesc: 'Grid not found.', errorDesc: 'The grid you requested doesn’t exist.' });
+        }
+
+    });
+
+    app.get('/kiosk/:grid', async (req, res) => {
+        let freshConfig = await config.get();
+        let availableGrids = await config.getGrids();
+        let gridName = req.params.grid + "-grid";
+        if(fs.existsSync("./views/" + gridName + ".hbs")) {
+            res.render(gridName, {
+                streamPort: configData.settings.streamPort,
+                scriptUrl: "/assets/jsmpeg.min.js",
+                availableGrids: availableGrids,
+                thisGrid: req.params.grid,
+                defaultGrid: freshConfig.settings.gridType,
+                version: pjson.version,
+                keepAwake: freshConfig.settings.keepAwake,
+                kioskMode: true,
+                transportProtocol: freshConfig.settings.transportProtocol,
+                quality: freshConfig.settings.quality
+            });
+        } else {
+            res.render('404', { layout: 'error', errorCode: '404', errorShortDesc: 'Grid not found.', errorDesc: 'The grid you requested doesn’t exist.' });
+        }
+
     });
 
     app.get('/setConfig/:option/:value', async (req, res) => {
@@ -77,6 +125,11 @@ function start() {
             config.setQuality(value);
         }
         res.redirect("/#settings");
+    });
+
+    app.get('/getGrids', (req, res) => {
+        config.getGridsSync();
+        res.send(grids);
     });
 
     app.get("/restartService", (req, res)=> {

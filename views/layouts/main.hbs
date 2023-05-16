@@ -56,6 +56,13 @@
                 <div class="modal-body bg-dark">
                     <h5>Selected Grid</h5>
                     <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="gridTitleSelected" data-bs-toggle="dropdown" aria-expanded="false">
+                        </button>
+                        <ul class="dropdown-menu" id="grid-menu-selected" aria-labelledby="gridTitleSelected">
+                        </ul>
+                    </div>
+                    <h5 class="mt-3">Default Grid</h5>
+                    <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle" type="button" id="gridTitle" data-bs-toggle="dropdown" aria-expanded="false">
                         </button>
                         <ul class="dropdown-menu" id="grid-menu" aria-labelledby="gridTitle">
@@ -74,7 +81,7 @@
                     <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle" type="button" id="transportMode"
                             data-bs-toggle="dropdown" aria-expanded="false"></button>
-                        <ul class="dropdown-menu" id="grid-menu" aria-labelledby="transportMode">
+                        <ul class="dropdown-menu" aria-labelledby="transportMode">
                             <li><a class="dropdown-item" href="/setConfig/transportProtocol/tcp" id="tcpItem">TCP (higher quality, more data usage)</a></li>
                             <li><a class="dropdown-item" href="/setConfig/transportProtocol/udp" id="udpItem">UDP (lower quality, less data usage)</a></li>
                         </ul>
@@ -83,7 +90,7 @@
                     <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle" type="button" id="videoQuality"
                             data-bs-toggle="dropdown" aria-expanded="false"></button>
-                        <ul class="dropdown-menu" id="grid-menu" aria-labelledby="videoQuality">
+                        <ul class="dropdown-menu" aria-labelledby="videoQuality">
                             <li><a class="dropdown-item" href="/setConfig/quality/1">1 (highest quality and data usage)</a></li>
                             <li><a class="dropdown-item" href="/setConfig/quality/2">2</a></li>
                             <li><a class="dropdown-item" href="/setConfig/quality/3">3</a></li>
@@ -144,6 +151,7 @@
                 return a - b;
         });
         const thisGrid = {{{ thisGrid }}};
+        const defaultGrid = {{{ defaultGrid }}};
 
         $(document).ready(function () {
 
@@ -323,11 +331,17 @@
         });
 
         availableGrids.forEach((e) => {
-            if (e === thisGrid) {
+            if (e === defaultGrid) {
                 $('#gridTitle').text(e);
                 $('#grid-menu').append('<li><a class="dropdown-item dropdown-item-selected" href="/setConfig/gridType/'+e+'">'+e+'</a></li>');
             } else {
                 $('#grid-menu').append('<li><a class="dropdown-item" href="/setConfig/gridType/'+e+'">'+e+'</a></li>');
+            }
+            if (e === thisGrid) {
+                $('#gridTitleSelected').text(e);
+                $('#grid-menu-selected').append('<li><a class="dropdown-item dropdown-item-selected" href="/grids/'+e+'">'+e+'</a></li>');
+            } else {
+                $('#grid-menu-selected').append('<li><a class="dropdown-item" href="/grids/'+e+'">'+e+'</a></li>');
             }
         });
 

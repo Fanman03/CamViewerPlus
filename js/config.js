@@ -45,8 +45,26 @@ async function getGrids() {
             }
         });
     });
-
     return availableGrids;
+}
+
+function getGridsSync() {
+    grids = [];
+    var files = fs.readdirSync(path.join(__dirname, '../views'));
+    files.forEach(file => {
+        if(file.includes("-grid.hbs")) {
+            grids.push(file.replace("-grid.hbs",""));
+        }
+    });
+    grids = grids.sort(function (a, b) {
+        if (a === Infinity)
+            return 1;
+        else if (isNaN(a))
+            return -1;
+        else
+            return a - b;
+    });
+    return grids;
 }
 
 function setGridType(grid) {
@@ -81,4 +99,4 @@ function setQuality(quality) {
     fs.writeFileSync('./conf/config.json', JSON.stringify(content));
 }
 
-module.exports = { get, getAsync, getGrids, setGridType, setKeepAwake, setTransportProtocol, setQuality }
+module.exports = { get, getAsync, getGrids, getGridsSync, setGridType, setKeepAwake, setTransportProtocol, setQuality }
