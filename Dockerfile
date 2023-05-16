@@ -16,4 +16,4 @@ COPY . .
 EXPOSE 6900
 EXPOSE 6980
 
-CMD [ "pm2", "start", "app.js" ]
+CMD [ "pm2-runtime", "app.js" ]
