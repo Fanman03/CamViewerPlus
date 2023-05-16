@@ -1,4 +1,4 @@
-FROM keymetrics/pm2:latest-alpine
+FROM node:16
 
 # Create app directory
 WORKDIR /usr/src/camviewerplus
@@ -16,4 +16,4 @@ COPY . .
 EXPOSE 6900
 EXPOSE 6980
 
-CMD [ "pm2-runtime", "app.js" ]
+CMD [ "npm", "run", "start-prod" ]
