@@ -1,0 +1,18 @@
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="text-center">
+        <h1 class="display-1 fw-bold text-white loading">Server Restarting<h1>
+                <p class="fs-3 text-white">The server is restarting, please wait.</p>
+    </div>
+</div>
+<script>
+    window.addEventListener("load", (event) => {
+        setTimeout(redir, 5000);
+    });
+
+    function redir() {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const url = urlParams.get('c')
+        document.location.href = url;
+    }
+</script>

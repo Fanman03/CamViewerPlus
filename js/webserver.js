@@ -133,6 +133,7 @@ function start() {
     });
 
     app.get("/restartService", (req, res)=> {
+        res.render('restarting', { layout: 'error', errorCode: 'Restarting', errorShortDesc: 'Server is restarting.'});
         pm2.connect(function(err) {
             if (err) {
               console.error(err);
@@ -144,7 +145,6 @@ function start() {
               if (err) throw err
             });
           });
-          res.redirect("/#settings");     
     })
 
     app.listen(configData.settings.uiPort, () => {

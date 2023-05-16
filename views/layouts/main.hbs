@@ -105,7 +105,7 @@
                     </div>
                     <h5 class="mt-3">Restart Service</h5>
                     <p>
-                        <a class="btn btn-danger" href="/restartService">Restart CamViewerPlus Service</a>
+                        <a class="btn btn-danger" href="/restartService" id="restartBtn">Restart CamViewerPlus Service</a>
                     </p>
                 </div>
                 <div class="modal-footer bg-dark fs-6">
@@ -154,6 +154,9 @@
         const defaultGrid = {{{ defaultGrid }}};
 
         $(document).ready(function () {
+
+            const safeUrl = encodeURIComponent(window.location.href);
+            $("#restartBtn").attr("href","/restartService?c=" + safeUrl);
 
             if (keepAwake == true) {
                 $('#keepAwakeSwitch').prop('checked', true);
