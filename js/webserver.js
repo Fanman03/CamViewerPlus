@@ -124,7 +124,29 @@ function start() {
         } else if (option === "quality") {
             config.setQuality(value);
         }
+
         res.redirect("/#settings");
+        
+    });
+
+    app.get('/setConfig/:option/:value/:query', async (req, res) => {
+        let option = req.params.option;
+        let value = req.params.value;
+        let query = req.params.query;
+        if (option === "gridType") {
+            config.setGridType(value);
+        } else if (option === "keepAwake") {
+            config.setKeepAwake(value);
+        } else if (option === "transportProtocol") {
+            config.setTransportProtocol(value);
+        } else if (option === "quality") {
+            config.setQuality(value);
+        }
+        if(query == "cvpc"){
+            res.redirect("/?cl=cvpc#settings");
+        } else {
+            res.redirect("/#settings");
+        }
     });
 
     app.get('/getGrids', (req, res) => {

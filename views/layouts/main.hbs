@@ -193,12 +193,25 @@
                 $("#selectedGridDropdown").hide();
                 $("#cvpc-banner").hide();
                 $("#defaultGridTitle").removeClass("mt-3");
+                
+                $('.dropdown-item').each(function(i, obj) {
+                    var oldUrl = $(this).attr("href");
+                    var newUrl = oldUrl + "/cvpc";
+                    $(this).attr("href",newUrl);
+                });
             }
 
         });
 
         function setKeepAwake(box) {
-            window.location.href = window.location.protocol+'//'+window.location.host+window.location.pathname + "setConfig/keepAwake/" + box.checked;
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const clientName = urlParams.get('cl')
+            if(clientName == "cvpc"){
+                window.location.href = window.location.protocol+'//'+window.location.host+ "/setConfig/keepAwake/" + box.checked + "/cvpc";
+            } else {
+                window.location.href = window.location.protocol+'//'+window.location.host+ "/setConfig/keepAwake/" + box.checked;
+            }
         }
 
         $("canvas").each(function () {
