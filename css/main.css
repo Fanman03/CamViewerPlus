@@ -221,6 +221,10 @@ a {
     color: #006fff;
 }
 
+.modal-dialog {
+    max-width: 700px;
+}
+
 .dropdown-item-selected {
     color: var(--bs-dropdown-link-hover-color);
     background-color: var(--bs-dropdown-link-hover-bg);
