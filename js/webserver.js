@@ -167,11 +167,13 @@ function start() {
         wss.clients.forEach((client) => {
             client.send("service_restart");
         });
-        pm2.connect(function(err) {          
-            pm2.restart('camviewer', function(err) {
-              pm2.disconnect();   // Disconnects from PM2
+        setTimeout(() => {
+            pm2.connect(function(err) {          
+                pm2.restart('camviewer', function(err) {
+                  pm2.disconnect();   // Disconnects from PM2
+                });
             });
-        });
+        }, 500);
     })
 
     app.get("/restartClients", (req, res)=> {

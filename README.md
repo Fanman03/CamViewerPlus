@@ -15,6 +15,7 @@ services:
       - '6900:6900/udp'
       - '6900:6900'
       - '6980:6980'
+      - '3000:3000'
     volumes:
       - config:/usr/src/camviewerplus/conf
 volumes:
