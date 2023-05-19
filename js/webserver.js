@@ -9,6 +9,11 @@ const { proxy, scriptUrl } = require('rtsp-relay')(app);
 const pjson = require('../package.json');
 var pm2 = require('pm2');
 
+var WebsocketServer = require("ws").Server;
+var wss  = new WebsocketServer({
+  port: 3000
+});
+
 function start() {
     let configData = config.get();
 
@@ -154,19 +159,26 @@ function start() {
         res.send(grids);
     });
 
+    app.get('/restarting', (req, res) => {
+        res.render('restarting', { layout: 'error', errorCode: 'Restarting', errorShortDesc: 'Server is restarting.', delay:5000});
+    });
+
     app.get("/restartService", (req, res)=> {
-        res.render('restarting', { layout: 'error', errorCode: 'Restarting', errorShortDesc: 'Server is restarting.'});
-        pm2.connect(function(err) {
-            if (err) {
-              console.error(err);
-              process.exit(2);
-            }
-          
+        wss.clients.forEach((client) => {
+            client.send("service_restart");
+        });
+        pm2.connect(function(err) {          
             pm2.restart('camviewer', function(err) {
               pm2.disconnect();   // Disconnects from PM2
-              if (err) throw err
             });
-          });
+        });
+    })
+
+    app.get("/restartClients", (req, res)=> {
+        res.render('restarting', { layout: 'error', errorCode: 'Restarting', errorShortDesc: 'Server is restarting.', delay:1});
+        wss.clients.forEach((client) => {
+            client.send("client_restart");
+        });
     })
 
     app.listen(configData.settings.uiPort, () => {
