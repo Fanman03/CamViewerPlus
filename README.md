@@ -9,7 +9,7 @@
 services:
   camviewerplus:
     container_name: camviewerplus
-    image: 'fanman03/camviewerplus:1.0.0'
+    image: 'fanman03/camviewerplus:1.2.0'
     restart: unless-stopped
     ports:
       - '6900:6900/udp'
