@@ -34,7 +34,6 @@ function start() {
     app.use('/favicon-16x16.png', express.static(path.join(__dirname, '../assets/favicon-16x16.png')));
     app.use('/favicon.ico', express.static(path.join(__dirname, '../assets/favicon.ico')));
 
-
     app.get('/', async (req, res) => {
         let freshConfig = await config.get();
         let availableGrids = await config.getGrids();
@@ -160,7 +159,7 @@ function start() {
     });
 
     app.get('/restarting', (req, res) => {
-        res.render('restarting', { layout: 'error', errorCode: 'Restarting', errorShortDesc: 'Server is restarting.', delay:5000});
+        res.render('restarting', { layout: 'error', errorCode: 'Restarting', errorShortDesc: 'Server is restarting.'});
     });
 
     app.get("/restartService", (req, res)=> {
@@ -182,6 +181,10 @@ function start() {
             client.send("client_restart");
         });
     })
+
+    app.get('/restarting/ping', async (req,res) => {
+        res.send("pong");
+    });
 
     app.listen(configData.settings.uiPort, () => {
         console.log(`Web server listening on port ${configData.settings.uiPort}`);

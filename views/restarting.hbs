@@ -6,8 +6,20 @@
 </div>
 <script>
     window.addEventListener("load", (event) => {
-        setTimeout(redir, {{delay}});
+        setInterval(checkStatus, 1000);
     });
+
+    let pingUrl = window.location.href + "/ping";
+
+    async function checkStatus() {
+        const response = await fetch(pingUrl);
+        if(response.status == 200) {
+            console.log("Connected, redirecting.");
+            redir();
+        } else {
+            console.log("No connection, trying again...");
+        }
+    }
 
     function redir() {
         const queryString = window.location.search;
