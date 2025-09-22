@@ -4,7 +4,7 @@
 
 ## Getting Started
 ### Docker
-1. Usage of `docker-compose` is reccomended:
+1. Usage of `docker-compose` is recommended:
 ```version: '3'
 services:
   camviewerplus:
